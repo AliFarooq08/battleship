@@ -1,5 +1,5 @@
 {
-  "name": "webdev-webpack-template",
+  "name": "battleship",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,16 +14,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AliFarooq08/webdev-webpack-template.git"
+    "url": "git+https://github.com/AliFarooq08/battleship.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/AliFarooq08/webdev-webpack-template/issues"
+    "url": "https://github.com/AliFarooq08/battleship/issues"
   },
-  "homepage": "https://github.com/AliFarooq08/webdev-webpack-template#readme",
+  "homepage": "https://github.com/AliFarooq08/battleship#readme",
   "devDependencies": {
     "@babel/core": "^7.29.7",
     "@babel/preset-env": "^7.29.7",
