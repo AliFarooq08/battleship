@@ -1,3 +1,4 @@
+import { RuntimeGlobals } from "webpack";
 import "./styles.css";
 class Ship {
     constructor(length) {
@@ -39,9 +40,34 @@ class Gameboard {
         this.submarine = false
         this.patrolBoat = false
     }
-    
-
-
-
+    placeBoat(x, y, shipType, direction) {
+        const lengths = {carrier: 5, battleship: 4, destroyer: 3, submarine: 3, patrolBoat: 2}
+        const length = lengths[shipType]
+        if (x < 0 || x > 9 || y < 0 || y > 9) return false // initial position out-of-bounds check
+        if (!length || this[shipType] !== false) return false // duplicate ship type check
+        if (direction === "x" && x + length > 10) return false // end position out-of-bounds check
+        if (direction === "y" && y + length > 10) return false // end position out-of-bounds check
+        if (direction === "x") {
+            for (let i = x; i < x + length; i++) { // check for ship already occupying space
+                if (this.board[y][i] !== 0) return false; 
+            }
+            this[shipType] = new Ship(length) // initializes ship
+            for (let i = x; i < x + length; i++) {
+                this.board[y][i] = this[shipType]
+            }   
+            return true
+        } else if (direction === "y") { // check for ship already occupying space
+            for (let i = y; i < y + length; i++) {
+                if (this.board[i][x] !== 0) return false;
+            }
+            this[shipType] = new Ship(length) // Initializes ship
+            for (let i = y; i < y + length; i++) {
+                this.board[i][x] = this[shipType]
+            }
+            return true
+        } else {
+            return false
+        }
+    }
 }
-export { Ship }
+export { Ship, Gameboard }
