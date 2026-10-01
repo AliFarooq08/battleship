@@ -89,4 +89,42 @@ class Gameboard {
         return false
     }
 }
-export { Ship, Gameboard }
+class Player {
+    constructor(name) {
+        this.name = name
+        this.board = new Gameboard()
+        this.opponent = undefined
+    }
+    getRandom(max) {
+        return Math.floor(Math.random() * (max + 1)) 
+    }
+    randomizeBoard() {
+        const ships = ["carrier", "battleship", "destroyer", "submarine", "patrolBoat"]
+        let trueCount = 0
+        let trueTest = false
+        const randomDirection = () => {
+            const num = this.getRandom(2)
+            if (num === 1) {
+                return "x"
+            } else {
+                return "y"
+            }
+        }
+        while (trueCount < 5) {
+            while (trueTest === false) {
+                trueTest = this.board.placeShip(this.getRandom(9), this.getRandom(9), ships[trueCount], randomDirection())
+            }
+            trueTest = false
+            trueCount++
+        }
+        return true
+    }
+    randomAttack() {
+        let successfulHit = false
+        while (successfulHit === false) {
+            successfulHit = this.opponent.board.receiveAttack(this.getRandom(9), this.getRandom(9))
+        }
+        return true
+    }
+}
+export { Ship, Gameboard, Player }
