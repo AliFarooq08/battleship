@@ -69,5 +69,17 @@ class Gameboard {
             return false
         }
     }
+    receiveAttack(x, y) {
+        if (x < 0 || x > 9 || y < 0 || y > 9 || this.board[y][x] === "H" || this.board[y][x] === "M") return false
+        if (this.board[y][x] instanceof Ship) {
+            this.board[y][x].hit()
+            this.board[y][x] = "H"
+            return "H"
+        } else if (this.board[y][x] === 0) {
+            this.board[y][x] = "M"
+            console.log(this.board)
+            return "M"
+        }
+    }
 }
 export { Ship, Gameboard }

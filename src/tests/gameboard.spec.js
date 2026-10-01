@@ -50,6 +50,20 @@ test("Gameboard succesfully places patrolBoat at (8, 8)", () => {
 test("Gameboard doesn't allow a second patrolBoat", () => {
     expect(myGameBoard.placeShip(6, 9, "patrolBoat", "x")).toBe(false)
 })
+test("Gameboard successfully hits patrol boat", () => {
+    expect(myGameBoard.receiveAttack(8, 9)).toBe("H")
+})
+test("Gameboard successfully misses a boat", () => {
+    expect(myGameBoard.receiveAttack(2, 1)).toBe("M")
+})
+test("Gameboard fails after hitting same area twice", () => {
+    expect(myGameBoard.receiveAttack(2, 1)).toBe(false)
+})
+test("Gameboard fails after hitting out of bounds area", () => {
+    expect(myGameBoard.receiveAttack(69, 420)).toBe(false)
+})
+
+
 
 
 
