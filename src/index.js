@@ -39,6 +39,7 @@ class Gameboard {
         this.destroyer = false
         this.submarine = false
         this.patrolBoat = false
+        this.hitCount = 0
     }
     placeShip(x, y, shipType, direction) {
         const lengths = {carrier: 5, battleship: 4, destroyer: 3, submarine: 3, patrolBoat: 2}
@@ -74,12 +75,18 @@ class Gameboard {
         if (this.board[y][x] instanceof Ship) {
             this.board[y][x].hit()
             this.board[y][x] = "H"
+            this.hitCount++
             return "H"
         } else if (this.board[y][x] === 0) {
             this.board[y][x] = "M"
-            console.log(this.board)
             return "M"
         }
+    }
+    checkWin() {
+        if (this.hitCount === 17) {
+            return true
+        }
+        return false
     }
 }
 export { Ship, Gameboard }

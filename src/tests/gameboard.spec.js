@@ -62,6 +62,17 @@ test("Gameboard fails after hitting same area twice", () => {
 test("Gameboard fails after hitting out of bounds area", () => {
     expect(myGameBoard.receiveAttack(69, 420)).toBe(false)
 })
+test("Doesn't give win if all ships aren't hit", () => {
+    expect(myGameBoard.checkWin()).toBe(false)
+})
+test("Gives win if all ships are hit", () => {
+    for (let x = 0; x < 10; x++) {
+        for (let y = 0; y < 10; y++) {
+            myGameBoard.receiveAttack(x, y)
+        }
+    }
+    expect(myGameBoard.checkWin()).toBe(true)
+})
 
 
 
