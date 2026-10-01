@@ -40,7 +40,7 @@ class Gameboard {
         this.submarine = false
         this.patrolBoat = false
     }
-    placeBoat(x, y, shipType, direction) {
+    placeShip(x, y, shipType, direction) {
         const lengths = {carrier: 5, battleship: 4, destroyer: 3, submarine: 3, patrolBoat: 2}
         const length = lengths[shipType]
         if (x < 0 || x > 9 || y < 0 || y > 9) return false // initial position out-of-bounds check
