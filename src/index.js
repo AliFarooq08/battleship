@@ -1,5 +1,3 @@
-import { RuntimeGlobals } from "webpack";
-import "./styles.css";
 class Ship {
     constructor(length) {
         this.shipLength = length

@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
+* {
+    margin: 0px;
+    padding: 0px;
+}
+body {
+    background-color: darkgray;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: lightgray;
+    width: 100vw;
+    height: 10vh;
+}
+.title {
+    font-family: "Black Ops One", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
+#body {
+    width: 100vw;
+    height: 90vh;
+    display: grid;
+    grid-template-columns: 40vh 10vh 40vh;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-areas: "left", "middle", "right";
+}
+#left, #middle, #right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#left {
+    grid-area: "left";
+}
+#middle {
+    grid-area: "left";
+}
+#right {
+    grid-area: "left";
+}
+#board1, #board2 {
+    width: 25vw;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+#node {
+    box-sizing: border-box;
+    width: 2.5vw;
+    height: 2.5vw;
+    border: 1px solid lightskyblue;
+}
+#carrier, #battleship, #destroyer, #submarine, #patrol-boat {
+    width: 20vw;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid gray;
+    padding: 1vh;
+    text-align: center;
+}
+#image {
+    display: flex;
+    flex-direction: row;
+}
+.blank {
+    background-color: white;
+}
+.template {
+    background-color: lightblue;
+    cursor: grab;
+    user-select: none;
+}
