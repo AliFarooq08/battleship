@@ -54,14 +54,18 @@ body {
     width: 2.5vw;
     height: 2.5vw;
     border: 1px solid lightskyblue;
+    font-size: 0;
 }
-#carrier, #battleship, #destroyer, #submarine, #patrol-boat {
-    width: 20vw;
+.ship-container {
+    width: fit-content;
     justify-content: center;
     align-items: center;
     border: 2px solid gray;
     padding: 1vh;
     text-align: center;
+}
+.ship {
+    display: flex;
 }
 #image {
     display: flex;
@@ -70,8 +74,52 @@ body {
 .blank {
     background-color: white;
 }
+.hovered {
+    background-color: gray;
+}
 .template {
     background-color: lightblue;
     cursor: grab;
     user-select: none;
+}
+.carrier, .battleship, .destroyer, .submarine, .patrolBoat {
+    background-color: blue;
+}
+#playerNames:open, #turn:open {
+    height: 100vh;
+    max-width: 100vw;
+    width: 100vw;
+    max-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-size: 3rem;
+    background: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    gap: 1vh;
+
+}
+#player2-name, #player1-name {
+    width: 20rem;
+    height: 3rem;
+    font-size: 2rem;
+}
+#name-input {
+    display: flex;
+    font-size: 3rem;
+    align-items: center;
+}
+#submit-name {
+    width: 10rem;
+    height: 3rem;
+    font-size: 2rem;
+    text-align: center;
+}
+#confirm-turn {
+    width: 10rem;
+    height: 3rem;
+    font-size: 2rem;
 }

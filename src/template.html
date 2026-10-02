@@ -13,7 +13,7 @@
 
     <div id="body">
       <div id="left">
-        <h1>Player 1</h1>
+        <h1 class="player1">Player 1</h1>
         <div id="board1">
 
         </div>
@@ -22,9 +22,9 @@
       <div id="middle">
         <h2>Place ships</h2>
         <div id="ships">
-          <div id="carrier">
+          <div class="ship-container">
             <h3>Carrier</h3>
-            <div id="image">
+            <div class="ship" id="carrier" draggable="true">
               <div id="node" class="template"></div>
               <div id="node" class="template"></div>
               <div id="node" class="template"></div>
@@ -32,34 +32,34 @@
               <div id="node" class="template"></div>            
             </div>
           </div>
-          <div id="battleship">
+          <div class="ship-container">
             <h3>Battleship</h3>
-            <div id="image">
+            <div class="ship" id="battleship" draggable="true">
               <div id="node" class="template"></div>
               <div id="node" class="template"></div>
               <div id="node" class="template"></div>
               <div id="node" class="template"></div>
             </div>
           </div>
-          <div id="destroyer">
+          <div class="ship-container">
             <h3>Destroyer</h3>
-            <div id="image">
+            <div class="ship" id="destroyer" draggable="true">
               <div id="node" class="template"></div>
               <div id="node" class="template"></div>
               <div id="node" class="template"></div>
             </div>
           </div>
-          <div id="submarine">
+          <div class="ship-container">
             <h3>Submarine</h3>
-            <div id="image">
+            <div class="ship" id="submarine" draggable="true">
               <div id="node" class="template"></div>
               <div id="node" class="template"></div>
               <div id="node" class="template"></div>            
             </div>
           </div>
-          <div id="patrol-boat">
+          <div class="ship-container">
             <h3>Patrol Boat</h3>
-            <div id="image">
+            <div class="ship" id="patrol-boat" draggable="true">
               <div id="node" class="template"></div>
               <div id="node" class="template"></div>
             </div>
@@ -68,11 +68,29 @@
       </div>
 
       <div id="right">
-        <h1>Player 2</h1>
+        <h1 class="player2">Player 2</h1>
         <div id="board2">
-
         </div>
       </div>
     </div>
+  <dialog id="playerNames">
+    <form method="dialog" id="name-form">
+      <legend class="name-form-title">Choose player names</legend>
+      <div id="name-input">
+        <label for="player1-name">Player 1 Name:</label>
+        <input id="player1-name" name="Player 1 Name" maxlength="20" required>
+      </div>
+      <div id="name-input">
+        <label for="player2-name">Player 2 Name:</label>
+        <input id="player2-name" name="Player 2 Name" maxlength="20" required>
+      </div>
+      <button id="submit-name">Submit</button>
+    </form>
+  </dialog>
+  <dialog id="turn">
+      <h1 id="whose-turn"></h1>
+      <button id="confirm-turn">ok</button>
+  </dialog>
+
   </body>
 </html>
