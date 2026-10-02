@@ -22,6 +22,13 @@ const turnClose = document.getElementById("confirm-turn")
 
 const allShips = document.querySelectorAll(".ship")
 const left = document.getElementById("left")
+const boardRandomize = document.getElementById("board-randomize")
+boardRandomize.addEventListener("click", () => {
+    board.replaceChildren()
+    currentPlayer.randomizeBoard()
+    createBoard(currentPlayer)
+})
+const right = document.getElementById("right")
 const confirmSelection = document.createElement("button")
 confirmSelection.textContent = "Done?"
 confirmSelection.id = "confirm-selection"
@@ -99,7 +106,7 @@ nameForm.addEventListener("submit", () => {
         player1 = new Player(document.getElementById("player1-name").value)
         player2 = new Player(document.getElementById("player2-name").value)
         naming.close()
-        currentPlayer = player1.name
+        currentPlayer = player1
         whoseTurn.textContent = `Hand screen over to ${player1.name}...`
         createBoard(player1)
         turn.showModal()
@@ -109,12 +116,12 @@ nameForm.addEventListener("submit", () => {
         player2 = new Player("computer")
         createBoard(player1)
         naming.close()
-        currentPlayer = player1.name
+        currentPlayer = player1
     }
     right.append(confirmSelection)
 });
 turnClose.addEventListener("click", () => {
-    if (currentPlayer === player2.name) {
+    if (currentPlayer.name === player2.name) {
         board.replaceChildren()
         createBoard(player2)
     }
@@ -154,14 +161,8 @@ multiPlayer.addEventListener("click", (e) => {
     naming.showModal()
 });
 confirmSelection.addEventListener("click", () => {
-    let currentPlayerObject
-    if (currentPlayer === player1.name) {
-        currentPlayerObject = player1
-    } else if (currentPlayer === player2.name) {
-        currentPlayerObject = player2
-    }
     let shipCount = 0
-    currentPlayerObject.board.board.forEach((y, yindex) => {
+    currentPlayer.board.board.forEach((y, yindex) => {
         y.forEach((x, xindex) => {
             if (x !== 0 && x !== "H" && x !== "M") {
                 shipCount++
@@ -170,18 +171,18 @@ confirmSelection.addEventListener("click", () => {
     });
     if (shipCount === 17) {
         if (mode === "singleplayer") {
-            if (currentPlayer === player1.name) {
+            if (currentPlayer.name === player1.name) {
                 player2.randomizeBoard()
                 console.log(player2.board.board)
                 startGame()
             }
         } else if (mode === "multiplayer") {
-            if (currentPlayer === player1.name) {
-                whoseTurn.textContent = `Hand screen over to ${player2.name}`
-                currentPlayer = player2.name
-                player.textContent = player2.name
+            if (currentPlayer.name === player1.name) {
+                currentPlayer = player2
+                whoseTurn.textContent = `Hand screen over to ${currentPlayer.name}`
+                player.textContent = currentPlayer.name
                 turn.showModal()
-            } else if (currentPlayer === player2.name) {
+            } else if (currentPlayer.name === player2.name) {
                 startGame()
             }
         }

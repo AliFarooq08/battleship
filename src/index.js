@@ -97,6 +97,7 @@ class Player {
         return Math.floor(Math.random() * (max + 1)) 
     }
     randomizeBoard() {
+        this.board = new Gameboard()
         const ships = ["carrier", "battleship", "destroyer", "submarine", "patrolBoat"]
         let trueCount = 0
         let trueTest = false
