@@ -6,7 +6,6 @@
     <title>Battleship</title>
   </head>
   <body>
-
     <div id="title">
       <h1 class="title">Battleship</h1>
     </div>
@@ -14,9 +13,7 @@
     <div id="body">
       <div id="left">
         <h1 class="player"></h1>
-        <div class="board">
-
-        </div>
+        <div class="board"></div>
         <button id="board-randomize">Randomize Board</button>
       </div>
 
@@ -30,7 +27,7 @@
               <div id="node" class="template"></div>
               <div id="node" class="template"></div>
               <div id="node" class="template"></div>
-              <div id="node" class="template"></div>            
+              <div id="node" class="template"></div>
             </div>
           </div>
           <div class="ship-container">
@@ -55,7 +52,7 @@
             <div class="ship" id="submarine" draggable="true">
               <div id="node" class="template"></div>
               <div id="node" class="template"></div>
-              <div id="node" class="template"></div>            
+              <div id="node" class="template"></div>
             </div>
           </div>
           <div class="ship-container">
@@ -78,37 +75,46 @@
         </div>
       </div>
     </div>
-  
-  <dialog id="choose-mode">
-      <h1 class="game-title">BATTLESHIP</legend>
+
+    <dialog id="choose-mode">
+      <h1 class="game-title">BATTLESHIP</h1>
       <div id="mode-horizontal">
-        <h2 class="choose-title">Choose Mode:</h1>
+        <h2 class="choose-title">Choose Mode:</h2>
         <div id="vertical-stack">
           <button id="singleplayer">Singleplayer</button>
           <button id="multiplayer">Multiplayer</button>
         </div>
       </div>
-  </dialog>
+    </dialog>
 
-  <dialog id="player-names">
-    <form method="dialog" id="name-form">
-      <legend class="name-form-title">Choose player names</legend>
-      <div id="name-input">
-        <label for="player1-name">Player 1 Name:</label>
-        <input id="player1-name" name="Player 1 Name" maxlength="20" required>
-      </div>
-      <div id="name-input" class="second-player">
-        <label for="player2-name">Player 2 Name:</label>
-        <input id="player2-name" name="Player 2 Name" maxlength="20" required>
-      </div>
-      <button id="submit-name">Submit</button>
-    </form>
-  </dialog>
+    <dialog id="player-names">
+      <form method="dialog" id="name-form">
+        <legend class="name-form-title">Choose player names</legend>
+        <div id="name-input">
+          <label for="player1-name">Player 1 Name:</label>
+          <input
+            id="player1-name"
+            name="Player 1 Name"
+            maxlength="20"
+            required
+          />
+        </div>
+        <div id="name-input" class="second-player">
+          <label for="player2-name">Player 2 Name:</label>
+          <input
+            id="player2-name"
+            name="Player 2 Name"
+            maxlength="20"
+            required
+          />
+        </div>
+        <button id="submit-name">Submit</button>
+      </form>
+    </dialog>
 
-  <dialog id="turn">
+    <dialog id="turn">
       <h1 id="whose-turn"></h1>
       <button id="confirm-turn">ok</button>
-  </dialog>
-
+    </dialog>
   </body>
 </html>
