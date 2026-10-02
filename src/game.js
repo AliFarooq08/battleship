@@ -9,7 +9,7 @@ const multiPlayer = document.getElementById("multiplayer")
 let player1
 let player2
 
-const board = document.getElementById("board")
+const selectionBoard = document.querySelector(".board")
 const secondPlayer = document.querySelector(".second-player")
 
 const naming = document.getElementById("player-names")
@@ -19,25 +19,33 @@ const player = document.querySelector(".player")
 const turn = document.getElementById("turn")
 const whoseTurn = document.getElementById("whose-turn")
 const turnClose = document.getElementById("confirm-turn")
+let draggedElement = null
+let draggedDirection = null
+let currentPlayer = ""
 
 const allShips = document.querySelectorAll(".ship")
 const left = document.getElementById("left")
 const boardRandomize = document.getElementById("board-randomize")
 boardRandomize.addEventListener("click", () => {
-    board.replaceChildren()
+    selectionBoard.replaceChildren()
     currentPlayer.randomizeBoard()
-    createBoard(currentPlayer)
+    createBoard(currentPlayer, selectionBoard)
 })
+
 const right = document.getElementById("right")
 const confirmSelection = document.createElement("button")
 confirmSelection.textContent = "Done?"
 confirmSelection.id = "confirm-selection"
 
-let draggedElement = null
-let draggedDirection = null
-let currentPlayer = ""
+let part = 1
+let player1Shoot
+let player2Shoot
+const boardOne = document.createElement("div")
+const boardTwo = document.createElement("div")
 
-function createBoard(player) {
+const body = document.getElementById("body")
+
+function createBoard(player, board) {
     player.board.board.forEach((y, yindex) => {
         y.forEach((x, xindex) => {
             const node = document.createElement("div")
@@ -45,57 +53,103 @@ function createBoard(player) {
             node.id = "node"
             node.textContent = x
             board.append(node)
-            if (x !== 0 && x !== "H" && x !== "M") {
-                const ships = ["carrier", "battleship", "destroyer", "submarine", "patrolBoat"]
-                for (let currentShip = 0; currentShip <= ships.length; currentShip++) {
-                    if (x === player.board[ships[currentShip]]) {
-                        node.className = ships[currentShip]
+            if (part === 1) {
+                if (x !== 0) {
+                    const ships = ["carrier", "battleship", "destroyer", "submarine", "patrolBoat"]
+                    for (let currentShip = 0; currentShip <= ships.length; currentShip++) {
+                        if (x === player.board[ships[currentShip]]) {
+                            if (part === 1) {
+                                node.className = ships[currentShip]
+                            }
+                        }
+                    }
+                    if (part === 1) {
+                        node.addEventListener("contextmenu", (e) => {
+                            e.preventDefault()
+                            player.board.board.forEach((y, yindex) =>  {
+                                y.forEach((x, xindex) => {
+                                    if (x === player.board[node.className]) {
+                                        player.board.board[yindex][xindex] = 0
+                                    }
+                                });
+                            });
+                            player.board[node.className] = false
+                            board.replaceChildren()
+                            createBoard(player, board)
+                        });
                     }
                 }
-                node.addEventListener("contextmenu", (e) => {
-                    e.preventDefault()
-                    player.board.board.forEach((y, yindex) =>  {
-                        y.forEach((x, xindex) => {
-                            if (x === player.board[node.className]) {
-                                player.board.board[yindex][xindex] = 0
-                            }
-                        });
-                    });
-                    player.board[node.className] = false
-                    board.replaceChildren()
-                    createBoard(player)
-                });
-            } else {
-                node.addEventListener("dragover", (event) => {
-                    event.preventDefault();
-                });
-                node.addEventListener("dragenter", (event) => {
-                    event.preventDefault()
+            }
+            node.addEventListener("dragover", (event) => {
+                event.preventDefault();
+            });
+            node.addEventListener("dragenter", (event) => {
+                event.preventDefault()
+                if (x !== "H" && x !== "M") {
                     node.className = "hovered"
-                })
-                node.addEventListener("dragleave", (event) => {
-                    event.preventDefault()
+                }
+            })
+            node.addEventListener("dragleave", (event) => {
+                event.preventDefault()
+                if (x !== "H" && x !== "M") {
                     node.className = "blank"
-                })
-                node.addEventListener("drop", (event) => {
-                    event.preventDefault()
-                    if (x === 0) {
-                        let boat
-                        if (draggedElement.id === "patrol-boat") {
-                            boat = "patrolBoat"
-                        } else {
-                            boat = draggedElement.id
+                }
+            })
+            node.addEventListener("drop", (event) => {
+                event.preventDefault()
+                if (x === 0 && part === 1) {
+                    let boat
+                    if (draggedElement.id === "patrol-boat") {
+                        boat = "patrolBoat"
+                    } else {
+                        boat = draggedElement.id
+                    }
+                    if (player.board.placeShip(xindex, yindex, boat, draggedDirection) === false) {
+                        node.className = "blank"
+                        alert("Bad placement (places from leftmost if horizontal, places from topmost if vertical), duplicate piece, or placing on top of ship!")
+                    } else {
+                        board.replaceChildren()
+                        createBoard(player, board)
+                    }
+                }
+            });
+            node.addEventListener("click", () => {
+                if (part === 2 && node.className !== "miss" && node.className !== "hit") {
+                    if (player.name === currentPlayer.name) {
+                        const shot = player.board.receiveAttack(xindex, yindex)
+                        if (shot === "M") {
+                            node.className = "miss"
+                        } else if (shot === "H") {
+                            node.className = "hit"
                         }
-                        if (player.board.placeShip(xindex, yindex, boat, draggedDirection) === false) {
-                            node.className = "blank"
-                            alert("Bad placement (places from leftmost if horizontal, places from topmost if vertical), duplicate piece, or placing on top of ship!")
-                        } else {
-                            board.replaceChildren()
-                            createBoard(player)
+                        if (player.board.checkWin() === true) {
+                            body.replaceChildren()
+                            const winningMessage = document.createElement("h1")
+                            winningMessage.textContent = `${currentPlayer.name} wins!`
+                            winningMessage.style.fontSize = "3rem"
+                            winningMessage.style.textAlign = "center"
+                            body.style.display = "flex"
+                            body.append(winningMessage)
+                        }
+                        if (currentPlayer.name === player1Shoot.name) {
+                                if (mode === "singleplayer") {
+                                    const computerShot = player2Shoot.randomAttack()
+                                    console.log(computerShot)
+                                    if (computerShot[0] === "M") {
+                                        boardTwo.children[(computerShot[2] * 10) + computerShot[1]].className = "miss"
+                                    } else if (computerShot[0] === "H") {
+                                        boardTwo.children[(computerShot[2] * 10) + computerShot[1]].className = "hit"
+                                    }
+                                    currentPlayer = player1Shoot
+                                } else {
+                                    currentPlayer = player2Shoot
+                                }
+                        } else if (currentPlayer.name === player2Shoot.name) {
+                            currentPlayer = player1Shoot
                         }
                     }
-                });
-            }
+                }
+            });
         });
     });
 }
@@ -108,13 +162,13 @@ nameForm.addEventListener("submit", () => {
         naming.close()
         currentPlayer = player1
         whoseTurn.textContent = `Hand screen over to ${player1.name}...`
-        createBoard(player1)
+        createBoard(player1, selectionBoard)
         turn.showModal()
     } else if (mode === "singleplayer") {
         player.textContent = `${document.getElementById("player1-name").value}`
         player1 = new Player(document.getElementById("player1-name").value)
-        player2 = new Player("computer")
-        createBoard(player1)
+        player2 = new Player("Computer")
+        createBoard(player1, selectionBoard)
         naming.close()
         currentPlayer = player1
     }
@@ -122,8 +176,8 @@ nameForm.addEventListener("submit", () => {
 });
 turnClose.addEventListener("click", () => {
     if (currentPlayer.name === player2.name) {
-        board.replaceChildren()
-        createBoard(player2)
+        selectionBoard.replaceChildren()
+        createBoard(player2, selectionBoard)
     }
     turn.close()
 });
@@ -171,11 +225,10 @@ confirmSelection.addEventListener("click", () => {
     });
     if (shipCount === 17) {
         if (mode === "singleplayer") {
-            if (currentPlayer.name === player1.name) {
-                player2.randomizeBoard()
-                console.log(player2.board.board)
-                startGame()
-            }
+            player2.randomizeBoard()
+            console.log("Make the board")
+            console.log(player2.board.board)
+            startGame()
         } else if (mode === "multiplayer") {
             if (currentPlayer.name === player1.name) {
                 currentPlayer = player2
@@ -183,6 +236,7 @@ confirmSelection.addEventListener("click", () => {
                 player.textContent = currentPlayer.name
                 turn.showModal()
             } else if (currentPlayer.name === player2.name) {
+                currentPlayer = player1
                 startGame()
             }
         }
@@ -191,6 +245,27 @@ confirmSelection.addEventListener("click", () => {
     }
 });
 function startGame() {
-    console.log("Start")
+    part = 2
+    currentPlayer = player1
+    body.style.gridTemplateColumns = "50vw 50vw"
+    left.replaceChildren()
+    right.replaceChildren()
+    boardOne.className = "board"
+    boardTwo.className = "board"
+    const boardOneTitle = document.createElement("h1")
+    const boardTwoTitle = document.createElement("h1")
+    boardOneTitle.textContent = `${player2.name}'s Board`
+    boardTwoTitle.textContent = `${player1.name}'s Board`
+    left.append(boardOneTitle)
+    left.append(boardOne)
+    right.append(boardTwoTitle)
+    right.append(boardTwo)
+    player1Shoot = new Player(player1.name)
+    player2Shoot = new Player(player2.name)
+    player1Shoot.board.board = player2.board.board
+    player2Shoot.board.board = player1.board.board
+    left.style.marginleft = "5vw"
+    createBoard(player1Shoot, boardOne)
+    createBoard(player2Shoot, boardTwo)
 }
 gameModeDialog.showModal()

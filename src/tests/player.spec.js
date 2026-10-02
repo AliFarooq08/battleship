@@ -8,6 +8,6 @@ player2.randomizeBoard()
 test("Randomize board works", () => {
     expect(player1.randomizeBoard()).toBe(true)
 })
-test("Attacking opponent board works", () => {
-    expect(player1.randomAttack()).toBe(true)
+test("Attacking board works", () => {
+    expect(player1.randomAttack()).toHaveLength(3)
 })

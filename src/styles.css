@@ -8,6 +8,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 #title {
     display: flex;
@@ -27,6 +28,8 @@ body {
     grid-template-columns: 70vh 30vh;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     grid-template-areas: "left", "right";
+    justify-content: center;
+    align-items: center;
 }
 #left, #right {
     display: flex;
@@ -43,16 +46,16 @@ body {
 #right {
     grid-area: "left";
 }
-#board {
-    width: 50vh;
+.board {
+    width: 45vw;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 #node {
     box-sizing: border-box;
-    width: 5vh;
-    height: 5vh;
+    width: 4.5vw;
+    height: 4.5vw;
     border: 1px solid lightskyblue;
     font-size: 0;
 }
@@ -156,4 +159,10 @@ body {
     outline: none;
     margin-bottom: 2px;
 
+}
+.miss {
+    background-color: darkslategray;
+}
+.hit {
+    background-color: red;
 }

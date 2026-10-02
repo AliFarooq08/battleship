@@ -120,10 +120,14 @@ class Player {
     }
     randomAttack() {
         let successfulHit = false
+        let firstNum
+        let secondNum
         while (successfulHit === false) {
-            successfulHit = this.opponent.board.receiveAttack(this.getRandom(9), this.getRandom(9))
+            firstNum = this.getRandom(9)
+            secondNum = this.getRandom(9)
+            successfulHit = this.board.receiveAttack(firstNum, secondNum)
         }
-        return true
+        return [successfulHit, firstNum, secondNum] 
     }
 }
 export { Ship, Gameboard, Player }
