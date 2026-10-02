@@ -17,18 +17,18 @@ body {
     width: 100vw;
     height: 10vh;
 }
-.title {
+.title, * {
     font-family: "Black Ops One", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
 }
 #body {
     width: 100vw;
     height: 90vh;
     display: grid;
-    grid-template-columns: 40vh 10vh 40vh;
+    grid-template-columns: 70vh 30vh;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    grid-template-areas: "left", "middle", "right";
+    grid-template-areas: "left", "right";
 }
-#left, #middle, #right {
+#left, #right {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,21 +43,21 @@ body {
 #right {
     grid-area: "left";
 }
-#board1, #board2 {
-    width: 25vw;
+#board {
+    width: 50vh;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 #node {
     box-sizing: border-box;
-    width: 2.5vw;
-    height: 2.5vw;
+    width: 5vh;
+    height: 5vh;
     border: 1px solid lightskyblue;
     font-size: 0;
 }
 .ship-container {
-    width: fit-content;
+    width: 25vh;
     justify-content: center;
     align-items: center;
     border: 2px solid gray;
@@ -85,7 +85,7 @@ body {
 .carrier, .battleship, .destroyer, .submarine, .patrolBoat {
     background-color: blue;
 }
-#playerNames:open, #turn:open {
+#player-names:open, #turn:open, #choose-mode:open {
     height: 100vh;
     max-width: 100vw;
     width: 100vw;
@@ -100,7 +100,6 @@ body {
     flex-direction: column;
     text-align: center;
     gap: 1vh;
-
 }
 #player2-name, #player1-name {
     width: 20rem;
@@ -122,4 +121,39 @@ body {
     width: 10rem;
     height: 3rem;
     font-size: 2rem;
+}
+#vertical-stack {
+    display: flex;
+    flex-direction: column;
+}
+#mode-horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: fit-content
+}
+#single-player, #multi-player {
+    width: 10vw;
+}
+.game-title {
+    font-size: 3.5rem;
+}
+.choose-title {
+    font-size: 3rem;
+    margin-right: 8px;
+}
+#rules {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#confirm-selection, #singleplayer, #multiplayer {
+    padding: 1vh 2vh;
+    background-color: darkgray;
+    border: 2px solid darkslategray;
+    outline: none;
+    margin-bottom: 2px;
+
 }

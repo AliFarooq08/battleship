@@ -13,13 +13,13 @@
 
     <div id="body">
       <div id="left">
-        <h1 class="player1">Player 1</h1>
-        <div id="board1">
+        <h1 class="player"></h1>
+        <div id="board">
 
         </div>
       </div>
 
-      <div id="middle">
+      <div id="right">
         <h2>Place ships</h2>
         <div id="ships">
           <div class="ship-container">
@@ -65,28 +65,45 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <div id="right">
-        <h1 class="player2">Player 2</h1>
-        <div id="board2">
+        <div id="rules">
+          <h3>Rules:</h3>
+          <ul>
+            <li>Drag and drop a piece from place ships to place on board</li>
+            <li>You can only place one of each ship</li>
+            <li>Right click a piece under place ships to make it vertical</li>
+            <li>Right click a piece on the board to remove it</li>
+            <li>You can only start when all 5 pieces are placed</li>
+          </ul>
         </div>
       </div>
     </div>
-  <dialog id="playerNames">
+  
+  <dialog id="choose-mode">
+      <h1 class="game-title">BATTLESHIP</legend>
+      <div id="mode-horizontal">
+        <h2 class="choose-title">Choose Mode:</h1>
+        <div id="vertical-stack">
+          <button id="singleplayer">Singleplayer</button>
+          <button id="multiplayer">Multiplayer</button>
+        </div>
+      </div>
+  </dialog>
+
+  <dialog id="player-names">
     <form method="dialog" id="name-form">
       <legend class="name-form-title">Choose player names</legend>
       <div id="name-input">
         <label for="player1-name">Player 1 Name:</label>
         <input id="player1-name" name="Player 1 Name" maxlength="20" required>
       </div>
-      <div id="name-input">
+      <div id="name-input" class="second-player">
         <label for="player2-name">Player 2 Name:</label>
         <input id="player2-name" name="Player 2 Name" maxlength="20" required>
       </div>
       <button id="submit-name">Submit</button>
     </form>
   </dialog>
+
   <dialog id="turn">
       <h1 id="whose-turn"></h1>
       <button id="confirm-turn">ok</button>

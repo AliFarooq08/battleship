@@ -1,23 +1,36 @@
 import "./styles.css";
 import { Ship, Gameboard, Player } from "./index.js"
 
+let mode = null
+const gameModeDialog = document.getElementById("choose-mode")
+const singlePlayer = document.getElementById("singleplayer")
+const multiPlayer = document.getElementById("multiplayer")
+
 let player1
 let player2
 
-const board1 = document.getElementById("board1")
-const board2 = document.getElementById("board2")
-const naming = document.getElementById("playerNames")
+const board = document.getElementById("board")
+const secondPlayer = document.querySelector(".second-player")
+
+const naming = document.getElementById("player-names")
 const nameForm = document.getElementById("name-form")
-const player1Name = document.querySelector(".player1")
-const player2Name = document.querySelector(".player2")
+const player = document.querySelector(".player")
+
 const turn = document.getElementById("turn")
-const turnClose = document.getElementById("confirm-turn")
 const whoseTurn = document.getElementById("whose-turn")
+const turnClose = document.getElementById("confirm-turn")
+
 const allShips = document.querySelectorAll(".ship")
+const left = document.getElementById("left")
+const confirmSelection = document.createElement("button")
+confirmSelection.textContent = "Done?"
+confirmSelection.id = "confirm-selection"
+
 let draggedElement = null
 let draggedDirection = null
 let currentPlayer = ""
-function initializeGrid(player, board) {
+
+function createBoard(player) {
     player.board.board.forEach((y, yindex) => {
         y.forEach((x, xindex) => {
             const node = document.createElement("div")
@@ -42,10 +55,8 @@ function initializeGrid(player, board) {
                         });
                     });
                     player.board[node.className] = false
-                    console.log(player.board[node.className])
-                    console.log(player.board.board)
                     board.replaceChildren()
-                    initializeGrid(player, board)
+                    createBoard(player)
                 });
             } else {
                 node.addEventListener("dragover", (event) => {
@@ -70,38 +81,42 @@ function initializeGrid(player, board) {
                         }
                         if (player.board.placeShip(xindex, yindex, boat, draggedDirection) === false) {
                             node.className = "blank"
-                            alert("Bad placement!")
+                            alert("Bad placement (places from leftmost if horizontal, places from topmost if vertical), duplicate piece, or placing on top of ship!")
                         } else {
                             board.replaceChildren()
-                            initializeGrid(player, board)
+                            createBoard(player)
                         }
                     }
-                })
+                });
             }
-        })
-    })
+        });
+    });
 }
 
-naming.showModal()
 nameForm.addEventListener("submit", () => {
-    player1Name.textContent = `${document.getElementById("player1-name").value}`
-    player2Name.textContent = `${document.getElementById("player2-name").value}`
-    player1 = new Player(document.getElementById("player1-name").value)
-    player2 = new Player(document.getElementById("player2-name").value)
-    console.log(player1.board.board)
-    console.log(player2.board.board)
-    naming.close()
-    currentPlayer = player1Name.textContent
-    whoseTurn.textContent = `Hand screen over to ${player1Name.textContent}...`
-    initializeGrid(player1, board1)
-    initializeGrid(player2, board2)
-    turn.showModal()
+    if (mode === "multiplayer") {
+        player.textContent = `${document.getElementById("player1-name").value}`
+        player1 = new Player(document.getElementById("player1-name").value)
+        player2 = new Player(document.getElementById("player2-name").value)
+        naming.close()
+        currentPlayer = player1.name
+        whoseTurn.textContent = `Hand screen over to ${player1.name}...`
+        createBoard(player1)
+        turn.showModal()
+    } else if (mode === "singleplayer") {
+        player.textContent = `${document.getElementById("player1-name").value}`
+        player1 = new Player(document.getElementById("player1-name").value)
+        player2 = new Player("computer")
+        createBoard(player1)
+        naming.close()
+        currentPlayer = player1.name
+    }
+    right.append(confirmSelection)
 });
 turnClose.addEventListener("click", () => {
-    if (currentPlayer === player1Name.textContent) {
-        whoseTurn.textContent = `Hand screen over to ${player2Name.textContent}`
-    } else if (currentPlayer === player2Name.textContent) {
-        whoseTurn.textContent = `Hand screen over to ${player1Name.textContent}`
+    if (currentPlayer === player2.name) {
+        board.replaceChildren()
+        createBoard(player2)
     }
     turn.close()
 });
@@ -124,3 +139,57 @@ allShips.forEach(ship => {
         
     })
 });
+singlePlayer.addEventListener("click", (e) => {
+    e.preventDefault()
+    mode = "singleplayer"
+    gameModeDialog.close()
+    naming.showModal()
+    secondPlayer.replaceChildren()
+
+})
+multiPlayer.addEventListener("click", (e) => {
+    e.preventDefault()
+    mode = "multiplayer"
+    gameModeDialog.close()
+    naming.showModal()
+});
+confirmSelection.addEventListener("click", () => {
+    let currentPlayerObject
+    if (currentPlayer === player1.name) {
+        currentPlayerObject = player1
+    } else if (currentPlayer === player2.name) {
+        currentPlayerObject = player2
+    }
+    let shipCount = 0
+    currentPlayerObject.board.board.forEach((y, yindex) => {
+        y.forEach((x, xindex) => {
+            if (x !== 0 && x !== "H" && x !== "M") {
+                shipCount++
+            }
+        });
+    });
+    if (shipCount === 17) {
+        if (mode === "singleplayer") {
+            if (currentPlayer === player1.name) {
+                player2.randomizeBoard()
+                console.log(player2.board.board)
+                startGame()
+            }
+        } else if (mode === "multiplayer") {
+            if (currentPlayer === player1.name) {
+                whoseTurn.textContent = `Hand screen over to ${player2.name}`
+                currentPlayer = player2.name
+                player.textContent = player2.name
+                turn.showModal()
+            } else if (currentPlayer === player2.name) {
+                startGame()
+            }
+        }
+    } else {
+        alert("Place all boats first!")
+    }
+});
+function startGame() {
+    console.log("Start")
+}
+gameModeDialog.showModal()
